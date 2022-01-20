@@ -62,9 +62,6 @@ void s7_single_display_update(const int);
 void s7_select_display(int);
 void s7_unselect_display(int);
 
-int __io_putchar(const int);
-int getchar(void);
-
 uint8_t SPIRead(uint8_t); /* read from spi device */
 void SPIWrite(uint8_t, uint8_t); /* write to spi device */
 /* USER CODE END PFP */
@@ -113,7 +110,6 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  /* here put code like variable value init, spi init etc */
   while (1)
   {
     /* USER CODE END WHILE */
@@ -181,20 +177,6 @@ void SPIWrite( uint8_t AddressAndAtributes, uint8_t Data ) {
  HAL_SPI_TransmitReceive(&hspi1, SPITx, SPIRx, 1, 100);
  HAL_GPIO_WritePin(GPIOA, SPI_NSS_Pin, GPIO_PIN_SET);
 }
-
-int __io_putchar(const int ch) {
-	HAL_UART_Transmit(&huart2, (uint8_t *)&ch, 1, 0xFFFF);
-	return ch;
-}
-
-int getchar(void) {
-	uint8_t value;
-	if( __HAL_UART_GET_FLAG(&huart2, UART_FLAG_RXNE) != SET ) return( -1 );
-	if (__HAL_UART_GET_FLAG(&huart2, UART_FLAG_RXNE) == SET) HAL_UART_Receive(&huart2, &value, 1, 100);
-	__io_putchar( value );
-	return ((int) value);
-}
-
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 	if (GPIO_Pin == Button1_Pin) {

@@ -182,7 +182,7 @@ void SPIWrite( uint8_t AddressAndAtributes, uint8_t Data ) {
  HAL_GPIO_WritePin(GPIOA, SPI_NSS_Pin, GPIO_PIN_SET);
 }
 
-int __io_putchar(const int ch) {
+int __io_putchar(int ch) {
 	HAL_UART_Transmit(&huart2, (uint8_t *)&ch, 1, 0xFFFF);
 	return ch;
 }

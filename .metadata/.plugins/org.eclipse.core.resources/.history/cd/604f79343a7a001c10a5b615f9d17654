@@ -42,16 +42,14 @@
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-/* 75 ms works great at this clock speed */
-#define DEBOUNCE(x) (x)=75
+#define DEBOUNCE(x) (x)=75	/* 75 ms works great at this clock speed */
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-uint16_t SPITx[10], SPIRx[10];	/* SPI data buffers - casting to uint16_t or it doesn't work */
-static int s7_refresh_counter = 0;
-static int button1_counter = 0;
+uint16_t SPITx[10], SPIRx[10];	/* SPI data buffers */
+static int s7_refresh_counter;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -61,12 +59,6 @@ void s7_display_update(const int);
 void s7_single_display_update(const int);
 void s7_select_display(int);
 void s7_unselect_display(int);
-
-int __io_putchar(const int);
-int getchar(void);
-
-uint8_t SPIRead(uint8_t); /* read from spi device */
-void SPIWrite(uint8_t, uint8_t); /* write to spi device */
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -113,7 +105,6 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  /* here put code like variable value init, spi init etc */
   while (1)
   {
     /* USER CODE END WHILE */
@@ -167,50 +158,13 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-uint8_t SPIRead( uint8_t Address ) {
- SPITx[0] = (0x80 | Address) << 8;
- HAL_GPIO_WritePin(GPIOA, SPI_NSS_Pin, GPIO_PIN_RESET);
- HAL_SPI_TransmitReceive(&hspi1, SPITx, SPIRx, 1, 100);
- HAL_GPIO_WritePin(GPIOA, SPI_NSS_Pin, GPIO_PIN_SET);
- return( (uint8_t)(SPIRx[0] & 0xFF) );
-}
-
-void SPIWrite( uint8_t AddressAndAtributes, uint8_t Data ) {
- SPITx[0] = (AddressAndAtributes << 8) + Data;
- HAL_GPIO_WritePin(GPIOA, SPI_NSS_Pin, GPIO_PIN_RESET);
- HAL_SPI_TransmitReceive(&hspi1, SPITx, SPIRx, 1, 100);
- HAL_GPIO_WritePin(GPIOA, SPI_NSS_Pin, GPIO_PIN_SET);
-}
-
-int __io_putchar(const int ch) {
-	HAL_UART_Transmit(&huart2, (uint8_t *)&ch, 1, 0xFFFF);
-	return ch;
-}
-
-int getchar(void) {
-	uint8_t value;
-	if( __HAL_UART_GET_FLAG(&huart2, UART_FLAG_RXNE) != SET ) return( -1 );
-	if (__HAL_UART_GET_FLAG(&huart2, UART_FLAG_RXNE) == SET) HAL_UART_Receive(&huart2, &value, 1, 100);
-	__io_putchar( value );
-	return ((int) value);
-}
-
-
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
-	if (GPIO_Pin == Button1_Pin) {
-		button1_counter++;
-	}
-}
-
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
-	if (htim == &htim1) { /* on timer 1 */
-		s7_display_update(0);
-		s7_refresh_counter++;
+	s7_display_update(0);
+	s7_refresh_counter++;
 
-		/* can be done better, this way it's really easy to understand */
-		if (s7_refresh_counter >= 24) {
-			s7_refresh_counter = 0;
-		}
+	/* can be done better, this way it's really easy to understand */
+	if (s7_refresh_counter >= 24) {
+		s7_refresh_counter = 0;
 	}
 }
 
