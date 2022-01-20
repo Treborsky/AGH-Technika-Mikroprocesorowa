@@ -1,0 +1,21 @@
+!SESSION 2022-01-20 21:49:02.873 -----------------------------------------------
+eclipse.buildId=Version 1.3.0
+java.version=1.8.0_242
+java.vendor=AdoptOpenJDK
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Command-line arguments:  -os linux -ws gtk -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2022-01-20 21:49:26.542
+!MESSAGE Log4j initialized with config file /home/trebor/STM32CubeIDE/workspace_1.3.0/.metadata/.log4j.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2022-01-20 21:49:28.719
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 4 4 2022-01-20 21:49:30.245
+!MESSAGE com.st.stm32cube.ide.mcu.ide/META-INF/version/build_ref file not found, build reference will not be reported into properties
+
+!ENTRY org.eclipse.cdt.core 1 0 2022-01-20 21:52:52.271
+!MESSAGE Indexed 'STM32-TechnikaMikroprocesorowa-Template' (0 sources, 0 headers) in 0.002 sec: 0 declarations; 0 references; 0 unresolved inclusions; 0 syntax errors; 0 unresolved names (0%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2022-01-20 21:53:01.402
+!MESSAGE Indexed 'STM32-TechnikaMikroprocesorowa-Template' (20 sources, 26 headers) in 1.8 sec: 1,946 declarations; 12,536 references; 4 unresolved inclusions; 55 syntax errors; 2,029 unresolved names (12%)
